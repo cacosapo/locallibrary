@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-o++@824g-imiw=qo!gs(h6$epeo0c$lq=z$#(u-*$mdc6gbq(d
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost','aqueous-journey-90307.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','djangolibraryserver.herokuapp.com']
 
 
 # Application definition
