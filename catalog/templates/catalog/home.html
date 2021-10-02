@@ -1,0 +1,9 @@
+<!-- base.html -->
+{% extends "base_generic.html" %}
+{% block content %}
+<ul>
+  {% for todo in todos %}
+  <li>{{ todo.id }} - {{ todo.title }}</li>
+  {% endfor %}
+</ul>
+{% endblock content %}
