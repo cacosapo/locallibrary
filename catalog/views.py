@@ -6,7 +6,7 @@ from catalog.forms import RenewBookForm
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 import requests
 
 # Create your views here.
@@ -27,13 +27,13 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
-def book_detail_view(request, primary_key):
-    try:
-        book = Book.objects.get(pk=primary_key)
-    except Book.DoesNotExist:
-        raise Http404('Book does not exist')
-
-    return render(request, 'catalog/book_detail.html', context={'book': book})
+#def book_detail_view(request, primary_key):
+#    try:
+#        book = Book.objects.get(pk=primary_key)
+#    except Book.DoesNotExist:
+#        raise Http404('Book does not exist')
+#
+#    return render(request, 'catalog/book_detail.html', context={'book': book})
 
 def book_detail_view(request, primary_key):
     book = get_object_or_404(Book, pk=primary_key)
@@ -69,7 +69,8 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-@permission_required('catalog.can_mark_returned')
+@login_required
+@permission_required('catalog.can_mark_returned', raise_exception=True)
 def renew_book_librarian(request, pk):
     """View function for renewing a specific BookInstance by librarian."""
     book_instance = get_object_or_404(BookInstance, pk=pk)
@@ -100,7 +101,6 @@ def renew_book_librarian(request, pk):
     }
 
     return render(request, 'catalog/book_renew_librarian.html', context)
-
 
 def home(request):
    # get the list of todos
