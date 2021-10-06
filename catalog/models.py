@@ -100,3 +100,29 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
+
+class Product(models.Model):
+    """Model representing a product (but not a specific copy of a product)."""
+    label = models.CharField(max_length=200)
+    code = models.CharField(max_length=200)
+    description = models.CharField(blank=True,max_length=200)
+    info = models.CharField(blank=True,max_length=200)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.label
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('product-detail', args=[str(self.code)])
+
+class PriceRow(models.Model):
+    """Model representing a price (but not a specific copy of a price)."""
+    price_value = models.DecimalField(max_digits=20,decimal_places=2)
+    group_value = models.CharField(blank=True,max_length=200)
+
+    product_code = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return str(self.price_value)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Author, Genre, Book, BookInstance
+from catalog.models import Author, Genre, Book, BookInstance, PriceRow, Product
 
 
 # Define the admin class
@@ -33,4 +33,23 @@ admin.site.register(Author, AuthorAdmin)
 #admin.site.register(Book)
 #admin.site.register(Author)
 admin.site.register(Genre)
+admin.site.register(PriceRow)
+
+class PriceRowInstanceInline(admin.TabularInline):
+    model = PriceRow
+    #exclude = ['price_value']
+
+@admin.register(Product)
+class ProductInstanceAdmin(admin.ModelAdmin):
+    list_display = ('label','code','description')
+    fieldsets = (
+        (None, {
+            'fields': ('label','code',)
+        }),
+        ('Details', {
+            'fields': ('info','description')
+        }),
+    )
+    inlines = [PriceRowInstanceInline]
+
 #admin.site.register(BookInstance)
