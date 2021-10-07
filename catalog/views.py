@@ -1,5 +1,5 @@
 from django.shortcuts import render, Http404, get_object_or_404
-from catalog.models import Book, Author, BookInstance, Genre
+from catalog.models import Book, Author, BookInstance, Genre, Product
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from catalog.forms import RenewBookForm
@@ -108,3 +108,11 @@ def home(request):
    # transfor the response to json objects
    todos = response.json()
    return render(request, "catalog/home.html", {"todos": todos})
+
+
+class ProductListView(generic.ListView):
+    model = Product
+    paginate_by = 5
+
+class ProductDetailView(generic.DetailView):
+    model = Product

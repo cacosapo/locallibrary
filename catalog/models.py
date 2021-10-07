@@ -104,7 +104,7 @@ class Author(models.Model):
 class Product(models.Model):
     """Model representing a product (but not a specific copy of a product)."""
     label = models.CharField(max_length=200)
-    code = models.CharField(max_length=200)
+    code = models.CharField(primary_key=True,max_length=200)
     description = models.CharField(blank=True,max_length=200)
     info = models.CharField(blank=True,max_length=200)
 
@@ -114,7 +114,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
-        return reverse('product-detail', args=[str(self.code)])
+        return reverse('product-detail', args=[str(self.pk)])
 
 class PriceRow(models.Model):
     """Model representing a price (but not a specific copy of a price)."""

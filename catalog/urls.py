@@ -18,3 +18,8 @@ urlpatterns += [
 urlpatterns += [
     path('home', views.home, name='home'),
 ]
+
+urlpatterns += [
+    path('produtos/', views.ProductListView.as_view(), name='produtos'),
+    path('produtos/<str:pk>', views.ProductDetailView.as_view(), name='product-detail'),
+]
